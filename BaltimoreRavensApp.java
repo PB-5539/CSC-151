@@ -6,7 +6,7 @@
 
 import javax.swing.JOptionPane;
 
-public class BaltimoreRavensAppWithCoachesSupportStaffAndPlayers {
+public class BaltimoreRavensApp {
 
     public static void main(String[] args) {
 
