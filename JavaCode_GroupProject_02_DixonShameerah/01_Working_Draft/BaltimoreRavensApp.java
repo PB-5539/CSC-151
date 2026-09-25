@@ -1,5 +1,3 @@
-
-
 // Individual contribution by Tannequa Whitehead:
 // Created the JOptionPane welcome screen, name input,
 // personalized greeting, main navigation menu, and repeating menu loop.
@@ -7,11 +5,19 @@
 import javax.swing.JOptionPane;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class BaltimoreRavensApp {
 
     public static void main(String[] args) {
+
+        // Added by Parker Behagg
+        // Records when the application starts.
+        printToLog("Program", "Application started");
 
         // Welcome screen
         JOptionPane.showMessageDialog(
@@ -28,6 +34,10 @@ public class BaltimoreRavensApp {
         if (userName == null || userName.trim().isEmpty()) {
             userName = "Guest";
         }
+
+        // Added by Parker Behagg
+        // Records the user who entered the application.
+        printToLog(userName, "User entered application");
 
         // Personalized greeting
         JOptionPane.showMessageDialog(
@@ -61,6 +71,10 @@ public class BaltimoreRavensApp {
             if (selection == 0) {
 
                 // Players
+                // Added by Parker Behagg
+                // Records when the user opens the Players section.
+                printToLog(userName, "Opened Players");
+
                 JOptionPane.showMessageDialog(
                         null,
                         readCSVFile("csv_files/ravens_players.csv")
@@ -69,6 +83,10 @@ public class BaltimoreRavensApp {
             } else if (selection == 1) {
 
                 // Coaches
+                // Added by Parker Behagg
+                // Records when the user opens the Coaches section.
+                printToLog(userName, "Opened Coaches");
+
                 JOptionPane.showMessageDialog(
                         null,
                         readCSVFile("csv_files/ravens_coaches.csv")
@@ -77,6 +95,10 @@ public class BaltimoreRavensApp {
             } else if (selection == 2) {
 
                 // Support Staff
+                // Added by Parker Behagg
+                // Records when the user opens the Support Staff section.
+                printToLog(userName, "Opened Support Staff");
+
                 JOptionPane.showMessageDialog(
                         null,
                         readCSVFile("csv_files/ravens_support_staff.csv")
@@ -85,6 +107,10 @@ public class BaltimoreRavensApp {
             } else if (selection == 3) {
 
                 // Exit
+                // Added by Parker Behagg
+                // Records when the user exits the application.
+                printToLog(userName, "Exited application");
+
                 JOptionPane.showMessageDialog(
                         null,
                         "Thank you for visiting Ravens Nation!"
@@ -92,6 +118,12 @@ public class BaltimoreRavensApp {
             }
 
         } while (selection != 3 && selection != JOptionPane.CLOSED_OPTION);
+
+        // Added by Parker Behagg
+        // Records when the program closes without the user selecting Exit.
+        if (selection == JOptionPane.CLOSED_OPTION) {
+            printToLog(userName, "Application closed");
+        }
     }
 
 // Added by Tannequa Whitehead
@@ -123,6 +155,53 @@ public static String readCSVFile(String fileName) {
         return "Error reading file: " + fileName;
     }
     return list.toString();
+    }
+
+
+// Added by Parker Behagg
+// Writes program activity to a CSV log file.
+// Creates the log file if it does not already exist.
+// Existing log entries are preserved by using append mode.
+public static void printToLog(String source, String action) {
+
+    String fileName = "csv_files/ravens_log.csv";
+    File logFile = new File(fileName);
+
+    DateTimeFormatter dateFormatter =
+            DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    DateTimeFormatter timeFormatter =
+            DateTimeFormatter.ofPattern("HH:mm:ss");
+
+    LocalDateTime now = LocalDateTime.now();
+
+    try {
+
+        // Check if the log file exists.
+        if (!logFile.exists()) {
+
+            // Create the log file if it does not exist.
+            logFile.createNewFile();
+
+            // Write the CSV header to the newly created file.
+            try (FileWriter writer = new FileWriter(logFile, true)) {
+                writer.write("Date,Time,Source,Action\n");
+            }
+        }
+
+        // Append the new log entry without overwriting existing entries.
+        try (FileWriter writer = new FileWriter(logFile, true)) {
+            writer.write(
+                    now.format(dateFormatter) + ","
+                    + now.format(timeFormatter) + ","
+                    + source + ","
+                    + action + "\n"
+            );
+        }
+
+    } catch (IOException e) {
+        System.out.println("Error writing to log file: " + e.getMessage());
+    }
     }
 }
 
