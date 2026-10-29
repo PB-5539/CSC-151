@@ -1,0 +1,3 @@
+EstimatorName,ProjectName,Location,WidthFt,LengthFt,ThicknessIn,AreaSqFt,ConcreteYards,WasteAdjustedYards,Employees,HoursPerEmployee,TotalLaborHours,MaterialCost,LaborCost,DiscountPercent,DiscountAmount,TotalCost
+Parker Behagg,Residential Pad,Residential Site,20.0,30.0,4.0,600.0,7.407407407407407,8.0,1,24.0,24.0,960.0,840.0,0.0,0.0,1800.0
+Estimator,Warehouse Slab,Industrial Site,80.0,140.0,6.0,11200.0,207.40740740740742,228.14814814814818,3,8.0,24.0,27377.77777777778,840.0,0.0,0.0,28217.77777777778
